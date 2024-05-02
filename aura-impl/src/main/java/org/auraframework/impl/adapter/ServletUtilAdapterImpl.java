@@ -16,6 +16,7 @@
 
 package org.auraframework.impl.adapter;
 
+import io.github.pixee.security.Newlines;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -509,7 +510,7 @@ public class ServletUtilAdapterImpl implements ServletUtilAdapter {
                 top == null ? null : top.getQualifiedName(), req);
 
         if (csp != null) {
-            rsp.setHeader(CSP.Header.SECURE, csp.getCspHeaderValue());
+            rsp.setHeader(CSP.Header.SECURE, Newlines.stripAll(csp.getCspHeaderValue()));
             Collection<String> terms = csp.getFrameAncestors();
             if (terms != null) {
                 // not open to the world; figure whether we can express an X-FRAME-OPTIONS header:
@@ -629,7 +630,7 @@ public class ServletUtilAdapterImpl implements ServletUtilAdapter {
     public void setCacheTimeout(HttpServletResponse response, long expiration) {
         long now = System.currentTimeMillis();
         response.setHeader(HttpHeaders.VARY, "Accept-Encoding");
-        response.setHeader(HttpHeaders.CACHE_CONTROL, String.format("max-age=%s, public", expiration / 1000));
+        response.setHeader(HttpHeaders.CACHE_CONTROL, Newlines.stripAll(String.format("max-age=%s, public", expiration / 1000)));
         response.setDateHeader(HttpHeaders.EXPIRES, now + expiration);
         response.setDateHeader(HttpHeaders.LAST_MODIFIED, now - SHORT_EXPIRE);
     }
