@@ -15,6 +15,7 @@
  */
 package org.auraframework.http;
 
+import io.github.pixee.security.Newlines;
 import java.io.IOException;
 import java.util.Set;
 
@@ -61,7 +62,7 @@ public class AuraCSPFilter implements Filter {
              * and run through here multiple times, and we must use the client's (first) version of the URI
              * to choose our policy
              */
-            response.setHeader(CSP.Header.REPORT_ONLY, getPolicy(request.getRequestURI()));
+            response.setHeader(CSP.Header.REPORT_ONLY, Newlines.stripAll(getPolicy(request.getRequestURI())));
         }
         
         chain.doFilter(req, res);
