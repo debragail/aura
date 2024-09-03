@@ -15,6 +15,8 @@
  */
 package org.auraframework.test.util;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -77,7 +79,7 @@ public final class SauceUtil {
 
     public static URL getSauceServerUrl() throws MalformedURLException {
         String hubURL = TUNNEL_SELENIUM_COMMANDS_THROUGH_SAUCE_CONNECT ? SAUCE_CONNECT_URL : SAUCE_WEB_DRIVER_URL;
-        return new URL(hubURL);
+        return Urls.create(hubURL, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
 
     // For Appium

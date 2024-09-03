@@ -15,6 +15,8 @@
  */
 package org.auraframework.integration.test.configuration;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -82,7 +84,7 @@ public class JettyTestServletConfig implements TestServletConfig {
                 }
             }
         }
-        baseUrl = new URL("http", host, port, "/");
+        baseUrl = Urls.create("http", host, port, "/", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         LOG.info("BaseUrl: " + baseUrl);
     }
 

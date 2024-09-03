@@ -15,6 +15,8 @@
  */
 package org.auraframework.util.validation;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -104,7 +106,7 @@ public final class ValidationClient {
         for (int numTrials = 4; numTrials >= 0; numTrials--) {
             Reader reader = null;
             try {
-                URLConnection connection = new URL(url).openConnection();
+                URLConnection connection = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openConnection();
                 reader = new InputStreamReader(connection.getInputStream());
                 if (report != null) {
                     // errors only sent back if report is null
@@ -153,7 +155,7 @@ public final class ValidationClient {
                 host = "localhost";
             }
         }
-        return new URL("http", host, port, "/");
+        return Urls.create("http", host, port, "/", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
 
     private static void log(String message) {
