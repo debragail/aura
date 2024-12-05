@@ -16,6 +16,8 @@
 package org.auraframework.integration.test.validation;
 
 import com.google.common.base.Charsets;
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -83,7 +85,7 @@ public final class AuraValidationServletHttpTest extends AuraHttpTestCase {
         assertTrue(path, new File(path).exists());
         String url = getTestServletConfig().getBaseUrl().toURI().resolve("/qa/auraValidation?path=" + path).toString();
 
-        InputStream stream = new URL(url).openStream();
+        InputStream stream = Urls.create(url, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS).openStream();
         List<String> errors = ValidationError.parseErrors(new InputStreamReader(stream));
 
         ValidationTestUtil.verifyValidationTestBasicErrors(errors);
