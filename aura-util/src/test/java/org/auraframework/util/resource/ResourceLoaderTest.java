@@ -15,6 +15,7 @@
  */
 package org.auraframework.util.resource;
 
+import java.nio.file.Files;
 import org.auraframework.util.IOUtil;
 import org.auraframework.util.test.util.UnitTestCase;
 import org.junit.Test;
@@ -104,7 +105,7 @@ public class ResourceLoaderTest extends UnitTestCase {
     }
 
     private File makeTestFile() throws IOException {
-        return File.createTempFile(getName(), null, origFolder);
+        return Files.createTempFile(origFolder.toPath(), getName(), null).toFile();
     }
 
     private void writeStringToFile(File file, String string) throws IOException {
@@ -182,7 +183,7 @@ public class ResourceLoaderTest extends UnitTestCase {
     public void testCacheDirDoesExist() throws Exception {
         File childDir = new File(cacheFolder, "child");
         childDir.mkdirs();
-        File childFile = File.createTempFile(getName(), null, cacheFolder);
+        File childFile = Files.createTempFile(cacheFolder.toPath(), getName(), null).toFile();
         new ResourceLoader(tempFolder.getPath(), false);
         assertTrue("Cache not created", cacheFolder.exists());
         assertTrue("Cache isn't a directory", cacheFolder.isDirectory());
@@ -200,7 +201,7 @@ public class ResourceLoaderTest extends UnitTestCase {
         cacheFolder.mkdirs();
         File childDir = new File(cacheFolder, "child");
         childDir.mkdirs();
-        File childFile = File.createTempFile(getName(), null, cacheFolder);
+        File childFile = Files.createTempFile(cacheFolder.toPath(), getName(), null).toFile();
         new ResourceLoader(tempFolder.getPath(), true);
         assertTrue("Cache not created", cacheFolder.exists());
         assertTrue("Cache isn't a directory", cacheFolder.isDirectory());

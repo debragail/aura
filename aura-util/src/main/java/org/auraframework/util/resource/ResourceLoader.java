@@ -27,6 +27,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.jar.JarFile;
@@ -291,7 +292,7 @@ public class ResourceLoader extends ClassLoader {
                     oldHashIn.close();
                 }
 
-                File tmpFile = File.createTempFile(file.getName(), "tmp", file.getParentFile());
+                File tmpFile = Files.createTempFile(file.getParentFile().toPath(), file.getName(), "tmp").toFile();
                 byte[] newHash = cache(url, tmpFile, hashFile);
 
                 if (Arrays.equals(oldHash, newHash)) {
