@@ -15,6 +15,7 @@
  */
 package org.auraframework.util.validation;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -292,7 +293,7 @@ public class ValidationError implements JsonSerializable {
         BufferedReader reader = new BufferedReader(input);
         List<String> errors = Lists.newArrayList();
         String line;
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             errors.add(line);
         }
         return errors;

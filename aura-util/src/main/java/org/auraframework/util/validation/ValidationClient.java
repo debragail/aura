@@ -15,6 +15,7 @@
  */
 package org.auraframework.util.validation;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -108,7 +109,7 @@ public final class ValidationClient {
                 reader = new InputStreamReader(connection.getInputStream());
                 if (report != null) {
                     // errors only sent back if report is null
-                    log(new BufferedReader(reader).readLine());
+                    log(BoundedLineReader.readLine(new BufferedReader(reader), 5_000_000));
                     return null;
                 } else {
                     return parseErrors(reader);
@@ -137,7 +138,7 @@ public final class ValidationClient {
         BufferedReader reader = new BufferedReader(inputReader);
         List<String> errors = new ArrayList<>();
         String line;
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             errors.add(line);
         }
         return errors;
