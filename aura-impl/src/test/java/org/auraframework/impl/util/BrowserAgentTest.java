@@ -16,6 +16,7 @@
 package org.auraframework.impl.util;
 
 import com.google.common.collect.Lists;
+import io.github.pixee.security.BoundedLineReader;
 import org.auraframework.util.test.annotation.UnAdaptableTest;
 import org.auraframework.util.test.annotation.UnitTest;
 import org.auraframework.util.test.util.UnitTestCase;
@@ -50,7 +51,7 @@ public class BrowserAgentTest extends UnitTestCase {
         String line;
         boolean firstLine = true;
 
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             if (firstLine) {
                 // Ignore first line as it contains the CSV header and not actual browser information
                 firstLine = false;
