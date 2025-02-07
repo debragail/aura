@@ -16,6 +16,7 @@
 
 package org.auraframework.http.resource;
 
+import io.github.pixee.security.Newlines;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +68,7 @@ public class ResourceSvg extends AuraResourceImpl {
                 return;
             }
             //finally add the etag to the header and write the image
-            response.setHeader("Etag", hash);
+            response.setHeader("Etag", Newlines.stripAll(hash));
             serverService.writeAppSvg(svg, response.getWriter());
         } catch (QuickFixException qfe) {
             servletUtilAdapter.handleServletException(qfe, true, context, request, response, false);

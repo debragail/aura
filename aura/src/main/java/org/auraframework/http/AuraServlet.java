@@ -15,6 +15,7 @@
  */
 package org.auraframework.http;
 
+import io.github.pixee.security.Newlines;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
@@ -197,7 +198,7 @@ public class AuraServlet extends AuraBaseServlet {
         }
 
         servletUtilAdapter.setNoCache(response);
-        response.setHeader(HttpHeaders.LOCATION, newLocation);
+        response.setHeader(HttpHeaders.LOCATION, Newlines.stripAll(newLocation));
     }
 
 
