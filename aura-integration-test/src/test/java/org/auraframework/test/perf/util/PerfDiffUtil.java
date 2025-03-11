@@ -15,6 +15,8 @@
  */
 package org.auraframework.test.perf.util;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.auraframework.util.adapter.SourceControlAdapter;
 import org.auraframework.util.test.perf.metrics.PerfMetrics;
 import org.junit.Assert;
@@ -38,7 +40,7 @@ public class PerfDiffUtil implements DiffUtil<PerfMetrics>{
         this.test = test;
         String explicitResultsFolder = test.getExplicitGoldResultsFolder();
         if (explicitResultsFolder != null) {
-            srcUrl = destUrl = new URL("file://" + explicitResultsFolder + '/' + goldName);
+            srcUrl = destUrl = Urls.create("file://" + explicitResultsFolder + '/' + goldName, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             return;
         }
     }

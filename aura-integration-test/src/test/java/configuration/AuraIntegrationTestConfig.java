@@ -15,6 +15,8 @@
  */
 package configuration;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.auraframework.adapter.RegistryAdapter;
 import org.auraframework.integration.test.service.DefinitionServiceImplTest.AuraTestRegistryProviderWithNulls;
 import org.auraframework.integration.test.util.SeleniumServerLauncher;
@@ -56,7 +58,7 @@ public class AuraIntegrationTestConfig {
                     if (runningOnSauceLabs) {
                         serverUrl = SauceUtil.getSauceServerUrl();
                     } else {
-                        serverUrl = new URL(hubUrlString);
+                        serverUrl = Urls.create(hubUrlString, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     }
                 } else {
 
@@ -67,7 +69,7 @@ public class AuraIntegrationTestConfig {
                     selLog.setLevel(Level.SEVERE);
 
                     SeleniumServerLauncher.start("localhost", serverPort);
-                    serverUrl = new URL(String.format("http://localhost:%s/wd/hub", serverPort));
+                    serverUrl = Urls.create(String.format("http://localhost:%s/wd/hub", serverPort), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
                     System.setProperty(WebDriverProvider.WEBDRIVER_SERVER_PROPERTY, serverUrl.toString());
                 }
                 Logger.getLogger(AuraIntegrationTestConfig.class.getName()).info("Selenium server url: " + serverUrl);

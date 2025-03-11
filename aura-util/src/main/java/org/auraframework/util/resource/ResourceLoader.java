@@ -15,6 +15,8 @@
  */
 package org.auraframework.util.resource;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -188,8 +190,7 @@ public class ResourceLoader extends ClassLoader {
                 return Optional.absent();
             }
             refreshCache(resourcePath, originalUrl);
-            return Optional.of(new CacheEntry(originalUrl, new URL(null, String.format(urlPattern, resourcePath),
-                    handler)));
+            return Optional.of(new CacheEntry(originalUrl, Urls.create(null, String.format(urlPattern, resourcePath), handler, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS)));
         }
     }
 
