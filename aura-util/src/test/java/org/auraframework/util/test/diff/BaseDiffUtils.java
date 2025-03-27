@@ -15,6 +15,7 @@
  */
 package org.auraframework.util.test.diff;
 
+import java.nio.file.Files;
 import org.auraframework.util.IOUtil;
 import org.auraframework.util.adapter.SourceControlAdapter;
 import org.auraframework.util.test.util.UnitTestCase;
@@ -106,8 +107,8 @@ public abstract class BaseDiffUtils<T> implements DiffUtils<T> {
         try {
             // create a temp file and write the results so that we're sure to
             // have something for diff to use
-            File resultsFile = File.createTempFile("aura-results.", ".xml");
-            File goldFile = File.createTempFile("aura-gold.", ".xml");
+            File resultsFile = Files.createTempFile("aura-results.", ".xml").toFile();
+            File goldFile = Files.createTempFile("aura-gold.", ".xml").toFile();
             try {
                 OutputStreamWriter fw1 = new OutputStreamWriter(new FileOutputStream(resultsFile), "UTF-8");
                 OutputStreamWriter fw2 = new OutputStreamWriter(new FileOutputStream(goldFile), "UTF-8");
