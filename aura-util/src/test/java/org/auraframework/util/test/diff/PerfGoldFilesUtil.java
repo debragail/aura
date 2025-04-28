@@ -15,6 +15,7 @@
  */
 package org.auraframework.util.test.diff;
 
+import io.github.pixee.security.BoundedLineReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
@@ -74,7 +75,7 @@ public final class PerfGoldFilesUtil {
         BufferedReader reader = new BufferedReader(new StringReader(text));
         String line;
         PerfMetric lastMetric = null;
-        while ((line = reader.readLine()) != null) {
+        while ((line = BoundedLineReader.readLine(reader, 5_000_000)) != null) {
             try {
                 line = line.substring(1);
                 if (line.endsWith("]")) {
