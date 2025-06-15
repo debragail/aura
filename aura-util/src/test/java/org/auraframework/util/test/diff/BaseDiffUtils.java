@@ -15,6 +15,8 @@
  */
 package org.auraframework.util.test.diff;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.auraframework.util.IOUtil;
 import org.auraframework.util.adapter.SourceControlAdapter;
 import org.auraframework.util.test.util.UnitTestCase;
@@ -44,7 +46,7 @@ public abstract class BaseDiffUtils<T> implements DiffUtils<T> {
               
         String explicitResultsFolder = test.getExplicitGoldResultsFolder();
         if (explicitResultsFolder != null) {
-            srcUrl = destUrl = new URL("file://" + explicitResultsFolder + '/' + goldName);       	
+            srcUrl = destUrl = Urls.create("file://" + explicitResultsFolder + '/' + goldName, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);       	
             return;
         }
 
@@ -59,17 +61,17 @@ public abstract class BaseDiffUtils<T> implements DiffUtils<T> {
                 String fullPath = testUrl.getPath();
                 String basePath = fullPath.substring(0, fullPath.indexOf(relPath)).replaceFirst(
                         "/target/test-classes/", "/src/test");
-                destUrl = new URL("file://" + basePath + resourceName);
+                destUrl = Urls.create("file://" + basePath + resourceName, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
             }
         } else if ("file".equals(srcUrl.getProtocol())) {
             // probably in dev so look for source rather than target
             String devPath = srcUrl.getPath().replaceFirst("/target/test-classes/", "/src/test/");
-            srcUrl = destUrl = new URL("file://" + devPath);
+            srcUrl = destUrl = Urls.create("file://" + devPath, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         }
 
         if (destUrl == null) {
             // if we're reading from jars and can't identify filesystem source locations, write to a temp file at least
-            destUrl = new URL("file://" + IOUtil.getDefaultTempDir() + resourceName);
+            destUrl = Urls.create("file://" + IOUtil.getDefaultTempDir() + resourceName, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
         }
         if (srcUrl == null) {
             // also if reading from jars and no gold included (shouldn't happen)

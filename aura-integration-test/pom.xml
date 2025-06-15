@@ -111,7 +111,11 @@
             <groupId>biz.aQute</groupId>
             <artifactId>bnd</artifactId>
         </dependency>
-    </dependencies>
+  <dependency>
+   <groupId>io.github.pixee</groupId>
+   <artifactId>java-security-toolkit</artifactId>
+  </dependency>
+ </dependencies>
     <properties>
         <chromedriver.url>http://chromedriver.storage.googleapis.com/{version}/{artifactId}_{classifier}.zip</chromedriver.url>
         <chromedriver.version>2.25</chromedriver.version>

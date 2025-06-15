@@ -15,6 +15,8 @@
  */
 package org.auraframework.util.javascript;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -156,12 +158,12 @@ public class MultiStreamReaderTest extends UnitTestCase {
     }
 
     private URL getStringStreamURL(final String content) throws MalformedURLException {
-        return new URL("string", null, 0, "" + System.nanoTime(), new URLStreamHandler() {
+        return Urls.create("string", null, 0, "" + System.nanoTime(), new URLStreamHandler() {
             @Override
             protected URLConnection openConnection(URL u) throws IOException {
                 return new StringStreamURLConnection(u, content);
             }
-        });
+        }, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
 
     public class StringStreamURLConnection extends URLConnection {
