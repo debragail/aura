@@ -16,6 +16,7 @@
 package org.auraframework.util;
 
 import java.io.File;
+import java.nio.file.Files;
 
 import org.auraframework.util.IOUtil.DeleteFailedException;
 import org.auraframework.util.test.util.UnitTestCase;
@@ -46,7 +47,7 @@ public class IOUtilTest extends UnitTestCase {
         // Delete File
         try {
             testFolder = Files.createTempDir();
-            testFile = File.createTempFile("tmpFile", null, testFolder);
+            testFile = Files.createTempFile(testFolder.toPath(), "tmpFile", null).toFile();
             assertTrue(testFile.exists());
             IOUtil.delete(testFile);
             assertFalse(testFile.exists());
@@ -57,8 +58,8 @@ public class IOUtilTest extends UnitTestCase {
 
         // Delete directory and all its children
         testFolder = Files.createTempDir();
-        File testFile1 = File.createTempFile("tmpFile", null, testFolder);
-        File testFile2 = File.createTempFile("tmpFile", null, testFolder);
+        File testFile1 = Files.createTempFile(testFolder.toPath(), "tmpFile", null).toFile();
+        File testFile2 = Files.createTempFile(testFolder.toPath(), "tmpFile", null).toFile();
         try {
             assertTrue(testFolder.exists());
             IOUtil.delete(testFolder);

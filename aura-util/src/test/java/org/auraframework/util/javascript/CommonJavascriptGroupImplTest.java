@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.nio.file.Files;
 
 import org.auraframework.util.IOUtil;
 import org.auraframework.util.test.util.UnitTestCase;
@@ -133,7 +134,7 @@ public class CommonJavascriptGroupImplTest extends UnitTestCase {
         File nestedFile = new File(newFile.getParentFile(), "testDir/testGetGroupHashNested.js");
         nestedFile.getParentFile().mkdir();
 
-        File dest = File.createTempFile(getName(), "");
+        File dest = Files.createTempFile(getName(), "").toFile();
 
         try {
             TestCommonJavascriptGroupImpl test = new TestCommonJavascriptGroupImpl("test", newFile.getParentFile());
