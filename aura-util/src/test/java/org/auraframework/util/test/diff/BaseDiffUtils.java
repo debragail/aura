@@ -15,6 +15,7 @@
  */
 package org.auraframework.util.test.diff;
 
+import io.github.pixee.security.BoundedLineReader;
 import org.auraframework.util.IOUtil;
 import org.auraframework.util.adapter.SourceControlAdapter;
 import org.auraframework.util.test.util.UnitTestCase;
@@ -137,11 +138,11 @@ public abstract class BaseDiffUtils<T> implements DiffUtils<T> {
         boolean printedAny = false;
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         try {
-            String line = reader.readLine();
+            String line = BoundedLineReader.readLine(reader, 5_000_000);
             while (null != line) {
                 sb.append(line).append("\n");
                 printedAny = true;
-                line = reader.readLine();
+                line = BoundedLineReader.readLine(reader, 5_000_000);
             }
             return printedAny;
         } finally {
